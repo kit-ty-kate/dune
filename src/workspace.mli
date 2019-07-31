@@ -18,7 +18,7 @@ module Context : sig
       ; toolchain    : string option
       ; name         : string
       ; host_context : string option
-      ; paths        : (string * Ordered_set_lang.t) list
+      ; paths        : (string * Ordered_set_lang.Unexpanded.t) list
       }
   end
   module Opam : sig
@@ -43,7 +43,7 @@ module Context : sig
   val env : t -> Dune_env.Stanza.t
 
   val profile : t -> string
-  val paths : t -> (string * Ordered_set_lang.t) list
+  val paths : t -> (string * Ordered_set_lang.Unexpanded.t) list
 
   val host_context : t -> string option
 end

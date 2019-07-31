@@ -530,22 +530,40 @@ let create ~(kind : Kind.t) ~path ~env ~env_nodes ~name ~merlin ~targets
   in
   native :: List.filter_opt others
 
-let extend_paths t ~env ~build_dir =
-  let module Eval =
-    Ordered_set_lang.Make(String)
-      (struct
-        type t = string
-        type key = string
-        let key x = x
-      end)
-  in
-  let t =
-    let f (var, t) =
-      let parse ~loc:_ s = s in
-      let standard = Env.path env |> List.map ~f:Path.to_string in
-      var, Eval.eval t ~parse ~standard
+let extend_paths ~env ~context =
+  let t = Workspace.Context.paths context in
+  let expand (var,t) =
+    let _, _ =
+      Ordered_set_lang.Unexpanded.files t
+        ~f:(fun incl ->
+          User_error.raise ~loc:(String_with_vars.loc incl)
+            [ Pp.text "The :include are not accepted in workspace file"]
+        )
     in
-    List.map ~f t
+    let t =
+      Ordered_set_lang.Unexpanded.expand t
+        ~dir:Path.root
+        ~files_contents:Path.Map.empty
+        ~f:(fun s ->
+          String_with_vars.expand s
+            ~mode:String_with_vars.Mode.Many
+            ~dir:Path.root
+            ~f:(fun var _ ->
+              match String_with_vars.Var.name var with
+              | "workspace_root" ->
+                (* We use String otherwise it doesn't stay absolute *)
+                Some [Value.String (Path.to_absolute_filename Path.root)]
+              | _ -> None
+            )
+           )
+    in
+    let parse ~loc:_ s = s in
+    let standard = Env.path env |> List.map ~f:Path.to_string in
+    var, Ordered_set_lang.String.eval t ~parse ~standard
+  in
+  let t = List.map ~f:expand t in
+  let build_dir =
+    Path.Build.relative Path.Build.root (Workspace.Context.name context)
   in
   let vars =
     let to_absolute_filename s =
@@ -656,9 +674,7 @@ let instantiate_context env (workspace : Workspace.t)
       (Env_nodes.extra_env
          ~profile:(Workspace.Context.profile context) env_nodes)
   in
-  let build_dir =
-    Path.Build.relative Path.Build.root (Workspace.Context.name context) in
-  let env = extend_paths ~env ~build_dir (Workspace.Context.paths context) in
+  let env = extend_paths ~env ~context in
   match context with
   | Default { targets; name; host_context = _; profile; env = _
             ; toolchain ; paths = _; loc = _ } ->
