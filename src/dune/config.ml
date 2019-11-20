@@ -134,6 +134,18 @@ module Caching = struct
 
     let decode = enum all
   end
+
+  module Duplication = struct
+    type t = Dune_cache.duplication_mode option
+
+    let all =
+      [ ("auto", None)
+      ; ("copy", Some Dune_cache.Copy)
+      ; ("handlink", Some Dune_cache.Hardlink)
+      ]
+
+    let decode = enum all
+  end
 end
 
 module type S = sig
@@ -147,6 +159,7 @@ module type S = sig
     ; cache_mode : Caching.Mode.t field
     ; cache_transport : Caching.Transport.t field
     ; cache_check_probability : float field
+    ; cache_duplication : Caching.Duplication.t field
     }
 end
 
@@ -168,6 +181,7 @@ let merge t (partial : Partial.t) =
   ; cache_transport = field t.cache_transport partial.cache_transport
   ; cache_check_probability =
       field t.cache_check_probability partial.cache_check_probability
+  ; cache_duplication = field t.cache_duplication partial.cache_duplication
   }
 
 let default =
@@ -186,6 +200,7 @@ let default =
   ; cache_mode = Disabled
   ; cache_transport = Daemon
   ; cache_check_probability = 0.01
+  ; cache_duplication = None
   }
 
 let decode =
@@ -206,6 +221,9 @@ let decode =
   and+ cache_check_probability =
     field "cache-check-probablity" Dune_lang.Decoder.float
       ~default:default.cache_check_probability
+  and+ cache_duplication =
+    field "cache-duplication" Caching.Duplication.decode
+      ~default:default.cache_duplication
   and+ () = Dune_lang.Versioned_file.no_more_lang in
   { display
   ; concurrency
@@ -214,6 +232,7 @@ let decode =
   ; cache_mode
   ; cache_transport
   ; cache_check_probability
+  ; cache_duplication
   }
 
 let decode = fields decode
