@@ -117,7 +117,7 @@ let describe =
   @@ make_fun "vcs-describe"
        ~doc:"Obtain a nice description of the tip from the vcs"
        ~output:(Simple (module String))
-       ~git:(fun t -> run t [ "describe"; "--always"; "--dirty" ])
+       ~git:(fun t -> run t [ "describe"; "--always"; "--dirty"; "--tags" ])
        ~hg:hg_describe
 
 let commit_id =

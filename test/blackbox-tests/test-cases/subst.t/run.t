@@ -70,3 +70,36 @@ And without an opam file preset.
   (package (name foo) (authors "John Doe <john@doe.com>"))
 
   $ rm -rf .git
+
+Lightweight tags support (git)
+------------------------------
+
+  $ rm -f foo.opam
+
+  $ cat > dune-project <<EOF
+  > (lang dune 2.0)
+  > (name foo)
+  > (package (name foo))
+  > EOF
+
+  $ X=%%; cat > file.ml <<EOF
+  > let version = "${X}VERSION${X}"
+  > EOF
+
+  $ git init --quiet
+  $ git add .
+  $ git commit -am _ --quiet
+  $ git tag 1.0
+
+  $ dune subst
+
+  $ cat file.ml
+  let version = "1.0"
+
+  $ cat dune-project
+  (lang dune 2.0)
+  (name foo)
+  (version 1.0)
+  (package (name foo))
+
+  $ rm -rf .git
