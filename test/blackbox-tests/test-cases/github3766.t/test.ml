@@ -1,5 +1,7 @@
 open! Stdune
 
+let mli_only = ref false
+
 let stub = ref None
 
 let name = ref ""
@@ -7,18 +9,22 @@ let name = ref ""
 let () =
   let anon s = name := s in
   let set_stub s = stub := Some s in
-  let args = [ ("--stub", Arg.String set_stub, "C stub") ] in
+  let args =
+    [ ("--stub", Arg.String set_stub, "C stub")
+    ; ("--mli-only", Arg.Set mli_only, "mli only")
+    ]
+  in
   Arg.parse (Arg.align args) anon "./test.exe <name> [--stub]"
 
 let stub = !stub
+
+let mli_only = !mli_only
 
 let name = !name
 
 let stanza = Io.read_all stdin
 
 let cwd () = Path.external_ (Path.External.cwd ())
-
-(* let dir = Path.relative cwd name *)
 
 let chdir dir = Unix.chdir (Path.to_absolute_filename dir)
 
@@ -74,7 +80,8 @@ let () =
           in_dir "lib" (fun () ->
               file "dune" stanza;
               Option.iter stub ~f:(fun name ->
-                  file (name ^ ".c") "void foo() {}"));
+                  file (name ^ ".c") "void foo() {}");
+              if mli_only then file (name ^ ".mli") "type x = unit");
           cmd "dune build --root . @install";
           cmd "ls _build/install/default/lib/foo/*.a");
 
