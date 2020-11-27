@@ -20,7 +20,6 @@ Our test checks each of the above with an internal and external library.
   -> creating foo.mli
   % dune build --root . @install
   % ls _build/install/default/lib/foo/*.a
-  _build/install/default/lib/foo/foo.a
   _build/install/default/lib/foo/libfoo_stubs.a
   
   # create a dummy executable to test
@@ -29,12 +28,21 @@ Our test checks each of the above with an internal and external library.
   
   # make sure that this library is usable locally
   % dune exec ./exe/b.exe
-  exe working
+  File "exe/dune", line 3, characters 7-8:
+  3 |  (name b)
+             ^
+  Error: No rule found for lib/foo.a
+  [1]
   
   # make sure that this library is usable externally
   % rm -rf lib
   % OCAMLPATH=_build/install/default/lib dune exec --build-dir=_b2 ./exe/b.exe
-  exe working
+  File "exe/dune", line 3, characters 7-8:
+  3 |  (name b)
+             ^
+  Error: File unavailable:
+  $TESTCASE_ROOT/mli_only_wrapped_stubs/_build/install/default/lib/foo/foo.a
+  [1]
   
   
   # mli_only_wrapped_no_stubs
@@ -44,7 +52,8 @@ Our test checks each of the above with an internal and external library.
   -> creating foo.mli
   % dune build --root . @install
   % ls _build/install/default/lib/foo/*.a
-  _build/install/default/lib/foo/foo.a
+  ls: _build/install/default/lib/foo/*.a: No such file or directory
+  [1]
   
   # create a dummy executable to test
   -> creating dune
@@ -52,12 +61,21 @@ Our test checks each of the above with an internal and external library.
   
   # make sure that this library is usable locally
   % dune exec ./exe/b.exe
-  exe working
+  File "exe/dune", line 3, characters 7-8:
+  3 |  (name b)
+             ^
+  Error: No rule found for lib/foo.a
+  [1]
   
   # make sure that this library is usable externally
   % rm -rf lib
   % OCAMLPATH=_build/install/default/lib dune exec --build-dir=_b2 ./exe/b.exe
-  exe working
+  File "exe/dune", line 3, characters 7-8:
+  3 |  (name b)
+             ^
+  Error: File unavailable:
+  $TESTCASE_ROOT/mli_only_wrapped_no_stubs/_build/install/default/lib/foo/foo.a
+  [1]
   
   
   # mli_only_unwrapped_stubs
@@ -68,7 +86,6 @@ Our test checks each of the above with an internal and external library.
   -> creating foo.mli
   % dune build --root . @install
   % ls _build/install/default/lib/foo/*.a
-  _build/install/default/lib/foo/foo.a
   _build/install/default/lib/foo/libfoo_stubs.a
   
   # create a dummy executable to test
@@ -77,12 +94,21 @@ Our test checks each of the above with an internal and external library.
   
   # make sure that this library is usable locally
   % dune exec ./exe/b.exe
-  exe working
+  File "exe/dune", line 3, characters 7-8:
+  3 |  (name b)
+             ^
+  Error: No rule found for lib/foo.a
+  [1]
   
   # make sure that this library is usable externally
   % rm -rf lib
   % OCAMLPATH=_build/install/default/lib dune exec --build-dir=_b2 ./exe/b.exe
-  exe working
+  File "exe/dune", line 3, characters 7-8:
+  3 |  (name b)
+             ^
+  Error: File unavailable:
+  $TESTCASE_ROOT/mli_only_unwrapped_stubs/_build/install/default/lib/foo/foo.a
+  [1]
   
   
   # mli_only_unwrapped_no_stubs
@@ -92,7 +118,8 @@ Our test checks each of the above with an internal and external library.
   -> creating foo.mli
   % dune build --root . @install
   % ls _build/install/default/lib/foo/*.a
-  _build/install/default/lib/foo/foo.a
+  ls: _build/install/default/lib/foo/*.a: No such file or directory
+  [1]
   
   # create a dummy executable to test
   -> creating dune
@@ -100,12 +127,21 @@ Our test checks each of the above with an internal and external library.
   
   # make sure that this library is usable locally
   % dune exec ./exe/b.exe
-  exe working
+  File "exe/dune", line 3, characters 7-8:
+  3 |  (name b)
+             ^
+  Error: No rule found for lib/foo.a
+  [1]
   
   # make sure that this library is usable externally
   % rm -rf lib
   % OCAMLPATH=_build/install/default/lib dune exec --build-dir=_b2 ./exe/b.exe
-  exe working
+  File "exe/dune", line 3, characters 7-8:
+  3 |  (name b)
+             ^
+  Error: File unavailable:
+  $TESTCASE_ROOT/mli_only_unwrapped_no_stubs/_build/install/default/lib/foo/foo.a
+  [1]
   
   
   # no_mli_wrapped_stubs
@@ -115,7 +151,6 @@ Our test checks each of the above with an internal and external library.
   -> creating stub.c
   % dune build --root . @install
   % ls _build/install/default/lib/foo/*.a
-  _build/install/default/lib/foo/foo.a
   _build/install/default/lib/foo/libfoo_stubs.a
   
   # create a dummy executable to test
@@ -124,12 +159,21 @@ Our test checks each of the above with an internal and external library.
   
   # make sure that this library is usable locally
   % dune exec ./exe/b.exe
-  exe working
+  File "exe/dune", line 3, characters 7-8:
+  3 |  (name b)
+             ^
+  Error: No rule found for lib/foo.a
+  [1]
   
   # make sure that this library is usable externally
   % rm -rf lib
   % OCAMLPATH=_build/install/default/lib dune exec --build-dir=_b2 ./exe/b.exe
-  exe working
+  File "exe/dune", line 3, characters 7-8:
+  3 |  (name b)
+             ^
+  Error: File unavailable:
+  $TESTCASE_ROOT/no_mli_wrapped_stubs/_build/install/default/lib/foo/foo.a
+  [1]
   
   
   # no_mli_wrapped_no_stubs
@@ -138,7 +182,8 @@ Our test checks each of the above with an internal and external library.
   -> creating dune
   % dune build --root . @install
   % ls _build/install/default/lib/foo/*.a
-  _build/install/default/lib/foo/foo.a
+  ls: _build/install/default/lib/foo/*.a: No such file or directory
+  [1]
   
   # create a dummy executable to test
   -> creating dune
@@ -146,12 +191,21 @@ Our test checks each of the above with an internal and external library.
   
   # make sure that this library is usable locally
   % dune exec ./exe/b.exe
-  exe working
+  File "exe/dune", line 3, characters 7-8:
+  3 |  (name b)
+             ^
+  Error: No rule found for lib/foo.a
+  [1]
   
   # make sure that this library is usable externally
   % rm -rf lib
   % OCAMLPATH=_build/install/default/lib dune exec --build-dir=_b2 ./exe/b.exe
-  exe working
+  File "exe/dune", line 3, characters 7-8:
+  3 |  (name b)
+             ^
+  Error: File unavailable:
+  $TESTCASE_ROOT/no_mli_wrapped_no_stubs/_build/install/default/lib/foo/foo.a
+  [1]
   
   
   # no_mli_unwrapped_stubs
@@ -161,7 +215,6 @@ Our test checks each of the above with an internal and external library.
   -> creating stub.c
   % dune build --root . @install
   % ls _build/install/default/lib/foo/*.a
-  _build/install/default/lib/foo/foo.a
   _build/install/default/lib/foo/libfoo_stubs.a
   
   # create a dummy executable to test
@@ -170,12 +223,21 @@ Our test checks each of the above with an internal and external library.
   
   # make sure that this library is usable locally
   % dune exec ./exe/b.exe
-  exe working
+  File "exe/dune", line 3, characters 7-8:
+  3 |  (name b)
+             ^
+  Error: No rule found for lib/foo.a
+  [1]
   
   # make sure that this library is usable externally
   % rm -rf lib
   % OCAMLPATH=_build/install/default/lib dune exec --build-dir=_b2 ./exe/b.exe
-  exe working
+  File "exe/dune", line 3, characters 7-8:
+  3 |  (name b)
+             ^
+  Error: File unavailable:
+  $TESTCASE_ROOT/no_mli_unwrapped_stubs/_build/install/default/lib/foo/foo.a
+  [1]
   
   
   # no_mli_unwrapped_no_stubs
@@ -184,7 +246,8 @@ Our test checks each of the above with an internal and external library.
   -> creating dune
   % dune build --root . @install
   % ls _build/install/default/lib/foo/*.a
-  _build/install/default/lib/foo/foo.a
+  ls: _build/install/default/lib/foo/*.a: No such file or directory
+  [1]
   
   # create a dummy executable to test
   -> creating dune
@@ -192,27 +255,36 @@ Our test checks each of the above with an internal and external library.
   
   # make sure that this library is usable locally
   % dune exec ./exe/b.exe
-  exe working
+  File "exe/dune", line 3, characters 7-8:
+  3 |  (name b)
+             ^
+  Error: No rule found for lib/foo.a
+  [1]
   
   # make sure that this library is usable externally
   % rm -rf lib
   % OCAMLPATH=_build/install/default/lib dune exec --build-dir=_b2 ./exe/b.exe
-  exe working
+  File "exe/dune", line 3, characters 7-8:
+  3 |  (name b)
+             ^
+  Error: File unavailable:
+  $TESTCASE_ROOT/no_mli_unwrapped_no_stubs/_build/install/default/lib/foo/foo.a
+  [1]
   
   
-  mli_only_wrapped_stubs - external - pass
-  mli_only_wrapped_stubs - internal - pass
-  mli_only_wrapped_no_stubs - external - pass
-  mli_only_wrapped_no_stubs - internal - pass
-  mli_only_unwrapped_stubs - external - pass
-  mli_only_unwrapped_stubs - internal - pass
-  mli_only_unwrapped_no_stubs - external - pass
-  mli_only_unwrapped_no_stubs - internal - pass
-  no_mli_wrapped_stubs - external - pass
-  no_mli_wrapped_stubs - internal - pass
-  no_mli_wrapped_no_stubs - external - pass
-  no_mli_wrapped_no_stubs - internal - pass
-  no_mli_unwrapped_stubs - external - pass
-  no_mli_unwrapped_stubs - internal - pass
-  no_mli_unwrapped_no_stubs - external - pass
-  no_mli_unwrapped_no_stubs - internal - pass
+  mli_only_wrapped_stubs - external - fail
+  mli_only_wrapped_stubs - internal - fail
+  mli_only_wrapped_no_stubs - external - fail
+  mli_only_wrapped_no_stubs - internal - fail
+  mli_only_unwrapped_stubs - external - fail
+  mli_only_unwrapped_stubs - internal - fail
+  mli_only_unwrapped_no_stubs - external - fail
+  mli_only_unwrapped_no_stubs - internal - fail
+  no_mli_wrapped_stubs - external - fail
+  no_mli_wrapped_stubs - internal - fail
+  no_mli_wrapped_no_stubs - external - fail
+  no_mli_wrapped_no_stubs - internal - fail
+  no_mli_unwrapped_stubs - external - fail
+  no_mli_unwrapped_stubs - internal - fail
+  no_mli_unwrapped_no_stubs - external - fail
+  no_mli_unwrapped_no_stubs - internal - fail
