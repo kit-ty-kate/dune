@@ -86,6 +86,23 @@ Unreleased
 - Allow (formatting ...) field in (env ...) stanza to set per-directory
   formatting specification. (#3942, @nojb)
 
+- [coq] In `coq.theory`, `:standard` for the `flags` field now uses the
+  flags set in `env` profile flags (#3931 , @ejgallego @rgrinberg)
+
+- [coq] Add `-q` flag to `:standard` `coqc` flags , fixes #3924, (#3931 , @ejgallego)
+
+- Add support for Coq's native compute compilation mode (@ejgallego, #3210)
+
+- Add a SUFFIX directive in `.merlin` files for each dialect with no
+  preprocessing, to let merlin know of additional file extensions
+  (#3977, @vouillon)
+
+- Stop promoting `.merlin` files. Write per-stanza Merlin configurations in
+  binary form. Add a new subcommand `dune ocaml-merlin` that Merlin can use to
+  query the configuration files. The `allow_approximate_merlin` option is now
+  useless and deprecated. Dune now conflicts with `merlin < 3.4.0` and
+  `ocaml-lsp-server < 1.3.0` (#3554, @voodoos)
+
 2.7.1 (2/09/2020)
 -----------------
 
