@@ -551,9 +551,7 @@ let package t =
   | Public (_, p) -> Some (Package.name p)
   | Private (_, p) -> Option.map p ~f:Package.name
 
-let has_native_archive lib_config modules =
-  Lib_config.linker_can_create_empty_archives lib_config
-  && Ocaml_version.ocamlopt_always_calls_library_linker lib_config.ocaml_version
-  || not (Modules.is_empty modules)
+let has_native_archive _lib_config modules =
+  not (Modules.is_empty modules)
 
 let entry_modules t = t.entry_modules
