@@ -1943,7 +1943,7 @@ let to_dune_lib ({ info; _ } as lib) ~modules ~foreign_objects ~dir =
           Direct (loc, mangled_name lib))
   in
   let name = mangled_name lib in
-  let has_modules = Modules.is_empty modules in
+  let has_modules = not (Modules.is_empty modules) in
   let info =
     Lib_info.for_dune_package info ~name ~ppx_runtime_deps ~requires
       ~foreign_objects ~obj_dir ~implements ~default_implementation ~sub_systems
