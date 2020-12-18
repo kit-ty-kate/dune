@@ -838,12 +838,11 @@ module Library = struct
       let archive = archive ext_lib in
       if virtual_library || not modes.native then
         Lib_info.Files []
-      else if Option.is_some conf.implements then
-        Lib_info.Files [ archive ]
       else if
-        Lib_config.linker_can_create_empty_archives lib_config
-        && Ocaml_version.ocamlopt_always_calls_library_linker
-             lib_config.ocaml_version
+        Option.is_some conf.implements
+        || Lib_config.linker_can_create_empty_archives lib_config
+           && Ocaml_version.ocamlopt_always_calls_library_linker
+                lib_config.ocaml_version
       then
         Lib_info.Files [ archive ]
       else
