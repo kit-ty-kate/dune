@@ -846,16 +846,8 @@ module Library = struct
              lib_config.ocaml_version
       then
         Lib_info.Files [ archive ]
-      else if
-        match conf.wrapped with
-        | This (Simple false)
-        | From _ ->
-          true
-        | _ -> false
-      then
-        Lib_info.Needs_module_info archive
       else
-        Lib_info.Files [ archive ]
+        Lib_info.Needs_module_info archive
     in
     let foreign_dll_files = foreign_dll_files conf ~dir ~ext_dll in
     let exit_module = Option.bind conf.stdlib ~f:(fun x -> x.exit_module) in

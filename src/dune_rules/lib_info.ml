@@ -374,7 +374,7 @@ let eval_native_archives_exn (type path) (t : path t) ~modules =
   | Needs_module_info _, None ->
     Code_error.raise "missing module information" []
   | Needs_module_info f, Some modules ->
-    if Modules.is_unwrapped modules && Modules.has_impl modules then
+    if Modules.has_impl modules then
       [ f ]
     else
       []

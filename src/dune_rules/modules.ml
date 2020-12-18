@@ -791,10 +791,6 @@ let is_empty = function
   | Unwrapped w -> Module_name.Map.is_empty w
   | Wrapped w -> Wrapped.empty w
 
-let is_unwrapped = function
-  | Unwrapped _ -> true
-  | _ -> false
-
 let as_singleton = function
   | Singleton m -> Some m
   | _ -> None
