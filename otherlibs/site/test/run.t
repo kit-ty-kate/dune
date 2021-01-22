@@ -9,6 +9,7 @@ Test embedding of sites locations information
   > (lang dune 2.8)
   > (using dune_site 0.1)
   > (name $i)
+  > (version 0.$i)
   > (package (name $i) (sites (share data)))
   > EOF
   > done
@@ -19,6 +20,7 @@ Test embedding of sites locations information
   > (lang dune 2.8)
   > (using dune_site 0.1)
   > (name $i)
+  > (version 0.$i)
   > (package (name $i) (sites (share data) (lib plugins)))
   > EOF
   > done
@@ -301,3 +303,34 @@ Test compiling an external plugin
   e: $TESTCASE_ROOT/_install/share/e/data
   info.txt is found: true
   run c: registered:e,b.
+
+Test %{version:installed-pkg}
+-----------------------------
+
+  $ for i in f; do
+  >   mkdir -p $i
+  >   cat >$i/dune-project <<EOF
+  > (lang dune 2.8)
+  > (using dune_site 0.1)
+  > (name $i)
+  > (version 0.$i)
+  > (package (name $i) (sites (share data) (lib plugins)))
+  > EOF
+  > done
+
+  $ cat >a/dune <<EOF
+  > (rule
+  >  (target test.target)
+  >  (action
+  >   (with-stdout-to %{target}
+  >    (seq
+  >     (echo "a = %{version:a}")
+  >     (echo "a = %{version:b}")
+  >     (echo "a = %{version:c}")
+  >     (echo "a = %{version:d}")
+  >     (echo "a = %{version:e}")))))
+  > EOF
+
+  $ dune build --root=f
+  $ cat f/_build/default/test.target
+  lol
