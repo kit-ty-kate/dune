@@ -129,7 +129,7 @@ let expand_version scope pform s =
     if not (String.equal (Package.Name.to_string (Lib_name.package_name libname)) s) then
       User_error.raise
         ~loc:(String_with_vars.Var.loc pform)
-        [ Pp.textf "Sub-packages are not allowed here." ];
+        [ Pp.textf "Library names are not allowed in this position. Only package names are allowed" ];
     begin match Lib.DB.find (Scope.libs scope) libname with
     | None ->
       User_error.raise

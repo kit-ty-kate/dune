@@ -339,5 +339,5 @@ Test %{version:installed-pkg}
   +  File "dune", line 6, characters 17-31:
 +  6 |     (echo "a = %{version:a.test}\n")
 +                       ^^^^^^^^^^^^^^
-+  Error: Sub-packages are not allowed here.
++  Error: Library names are not allowed in this position. Only package names are allowed
 +  [1]
