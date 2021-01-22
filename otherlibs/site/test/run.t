@@ -332,3 +332,12 @@ Test %{version:installed-pkg}
   $ cat $(pwd)/f/_build/default/test.target
   a = 0.a
   e = 
+
+  $ sed -i 's/version:a/version:a.test' f/dune
+  $ OCAMLPATH=_install/lib:$OCAMLPATH dune build --root=f
+  Entering directory 'f'
+  +  File "dune", line 6, characters 17-31:
++  6 |     (echo "a = %{version:a.test}\n")
++                       ^^^^^^^^^^^^^^
++  Error: Sub-packages are not allowed here.
++  [1]

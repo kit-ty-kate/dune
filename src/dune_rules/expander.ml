@@ -125,7 +125,12 @@ let expand_version scope pform s =
       (Package.Name.of_string s)
   with
   | None ->
-    begin match Lib.DB.find (Scope.libs scope) (Lib_name.of_string s) with
+    let libname = Lib_name.of_string s in
+    if not (String.equal (Package.Name.to_string (Lib_name.package_name libname)) s) then
+      User_error.raise
+        ~loc:(String_with_vars.Var.loc pform)
+        [ Pp.textf "Sub-packages are not allowed here." ];
+    begin match Lib.DB.find (Scope.libs scope) libname with
     | None ->
       User_error.raise
         ~loc:(String_with_vars.Var.loc pform)
